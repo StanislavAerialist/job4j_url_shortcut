@@ -17,6 +17,7 @@ import ru.job4j.urlshortcut.filter.JWTAuthorizationFilter;
 import ru.job4j.urlshortcut.util.PassEncoderHandler;
 import ru.job4j.urlshortcut.service.SimpleSiteService;
 
+import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.REDIRECT;
 import static ru.job4j.urlshortcut.filter.JWTAuthenticationFilter.SIGN_UP_URL;
 
 
@@ -30,7 +31,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.POST, SIGN_UP_URL, REDIRECT).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

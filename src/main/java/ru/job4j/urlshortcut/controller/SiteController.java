@@ -1,10 +1,10 @@
 package ru.job4j.urlshortcut.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,8 +24,6 @@ public class SiteController {
 
     private static final Logger LOG = LogManager.getLogger(SiteController.class.getName());
 
-    private final ObjectMapper objectMapper;
-
     @PostMapping("/registration")
     public ResponseEntity<SiteDto> create(@RequestBody Site site) {
         var rsl = siteService.create(site);
@@ -40,5 +38,28 @@ public class SiteController {
     public ResponseEntity<UrlDto> convert(@RequestBody Url url) {
         var rsl = urlService.create(url);
         return new ResponseEntity<>(rsl, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/redirect/{key}")
+    public ResponseEntity<String> convert(@PathVariable String key) {
+        var rsl = urlService.findByKey(key);
+        if (rsl.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND).build();
+        }
+        var body = rsl.get().getUrl();
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header("Status", "HTTP CODE - 302 REDIRECT URL")
+                .body(body);
+    }
+
+    @GetMapping("/statistic")
+    public ResponseEntity<String> getStatistic() {
+        var body = urlService.findAllUrlAndCountPerEach();
+        return ResponseEntity.status(HttpStatus.OK)
+                .header("Statistic", "Successful")
+                .contentType(MediaType.TEXT_PLAIN)
+                .contentLength(body.length())
+                .body(body);
     }
 }

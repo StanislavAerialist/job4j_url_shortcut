@@ -15,14 +15,13 @@ import javax.validation.constraints.NotBlank;
 public class Url {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private int id;
 
     private int count;
 
-    @EqualsAndHashCode.Include
     @NotBlank(message = "Url must be not empty")
     private String url;
 
-    @EqualsAndHashCode.Include
     private String key;
 }

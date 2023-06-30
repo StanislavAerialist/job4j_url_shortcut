@@ -9,15 +9,6 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 public class Main {
-
-	@Bean
-	public SpringLiquibase liquibase(DataSource ds) {
-		SpringLiquibase liquibase = new SpringLiquibase();
-		liquibase.setChangeLog("classpath:liquibase-changeLog.xml");
-		liquibase.setDataSource(ds);
-		return liquibase;
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 	}

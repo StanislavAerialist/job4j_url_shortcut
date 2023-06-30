@@ -28,13 +28,13 @@ public class SimpleSiteService implements SiteService, UserDetailsService {
     @Override
     public SiteDto create(Site site) {
         var rsl = new SiteDto();
-        if (siteRepository.existsByLogin(site.getLogin())) {
-            rsl.setRegStatus(false);
-            return rsl;
-        }
         var password = passwordGenerator.generatePassword();
         site.setPassword(encoder.passwordEncoder().encode(password));
-        site.setLogin(keyAndLoginGenerator.generateLogin(site.getName()));
+        String login;
+        do {
+            login = keyAndLoginGenerator.generateLogin(site.getName());
+        } while (siteRepository.existsByLogin(login));
+        site.setLogin(login);
         siteRepository.save(site);
         rsl.setRegStatus(true);
         rsl.setGeneratedLogin(site.getLogin());

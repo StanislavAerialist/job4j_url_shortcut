@@ -28,7 +28,7 @@
 
 - скачать проект
 - создать базу данных: ```create database url_shortcut;```
-- запусть Main class, расположение: ru.job4j.urlshortcut
+- запустить Main class, расположение: ru.job4j.urlshortcut
 - Открыть в браузере [ссылку](http://localhost:8080/)
 
 ## Взаимодействие с приложением:

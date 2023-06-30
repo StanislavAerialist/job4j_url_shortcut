@@ -15,14 +15,13 @@ import javax.validation.constraints.NotBlank;
 public class Site {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private int id;
 
     @NotBlank(message = "Site name must be not empty")
     private String name;
 
-    @EqualsAndHashCode.Include
     private String login;
 
-    @EqualsAndHashCode.Include
     private String password;
 }
